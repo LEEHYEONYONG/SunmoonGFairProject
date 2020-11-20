@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#E3F3FA"
+    android:id="@+id/linearRestaurant"
+    android:padding="10sp"
+    android:layout_margin="5sp"
+    android:elevation="3sp">
+
+    <TextView
+        android:id="@+id/txtRestaurantName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="음식점이름"/>
+    <TextView
+        android:id="@+id/txtRestaurantPhoneNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="음식점전화번호"/>
+    <TextView
+        android:id="@+id/txtRestaurantAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="음식점주소"/>
+
+</LinearLayout>

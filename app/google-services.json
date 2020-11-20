@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "104391242105",
+    "firebase_url": "https://gfairproject-51352.firebaseio.com",
+    "project_id": "gfairproject-51352",
+    "storage_bucket": "gfairproject-51352.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:104391242105:android:39d419f0743337ad1fbfa8",
+        "android_client_info": {
+          "package_name": "com.example.gfairproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "104391242105-grdbkehcpg5um5truc010aaf1tg4mkul.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZse6lBc3Vy0CPoATPlnJ3nLhFmjxsBdU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "104391242105-grdbkehcpg5um5truc010aaf1tg4mkul.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
