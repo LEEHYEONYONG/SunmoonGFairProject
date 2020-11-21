@@ -11,7 +11,7 @@ public class RestaurantApi {
             URL url = new URL(apiURL);
             HttpURLConnection con = (HttpURLConnection)url.openConnection();
             con.setRequestMethod("GET");
-            //con.setRequestProperty("Authorization", "KakaoAK 4c9947b8b0448265ca15036c39a7fa4e");
+            //con.setRequestProperty("Authorization", "KakaoAK");
             //con.setRequestProperty("Accept");
             int responseCode = con.getResponseCode();
             BufferedReader br;

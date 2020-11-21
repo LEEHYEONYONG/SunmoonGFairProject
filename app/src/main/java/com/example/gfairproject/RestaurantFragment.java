@@ -9,6 +9,7 @@ import androidx.loader.content.AsyncTaskLoader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,6 +36,7 @@ public class RestaurantFragment extends Fragment {
     Spinner spinSearchSiDo;
     Spinner spinSearchSiGunGu;
     Button btnSearchRestaurant;
+    FloatingActionButton btnRestaurantMore;
 
     RecyclerView listRestaurant;
     //RestaurantAdapter restaurantAdapter = new RestaurantAdapter();
@@ -42,6 +46,12 @@ public class RestaurantFragment extends Fragment {
     ArrayList<HashMap<String,String>> arrayRestaurant = new ArrayList<>();
     String result;
 
+    String url = "http://211.237.50.150:7080/openapi/"+ApiKey.ApiFoodKey+"/json/Grid_20200713000000000605_1/1/";
+    int page = 10;
+    String strSelectedSido;//선택한 시도
+    String strSelectedSiGunGu;//선택한 시군구
+    int check=1;//경우선택
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,10 +60,13 @@ public class RestaurantFragment extends Fragment {
         spinSearchSiDo = view.findViewById(R.id.spinSearchSiDo);
         spinSearchSiGunGu = view.findViewById(R.id.spinSearchSiGunGu);
         btnSearchRestaurant = view.findViewById(R.id.btnSearchRestaurant);
+        btnRestaurantMore = view.findViewById(R.id.btnRestaurantMore);
 
         listRestaurant = view.findViewById(R.id.listRestaurant);
         listRestaurant.setLayoutManager(new LinearLayoutManager(getActivity()));
         listRestaurant.setAdapter(restaurantAdapter);
+
+
 
         final ArrayAdapter adapterSido = ArrayAdapter.createFromResource(getContext(),R.array.SiDo,R.layout.support_simple_spinner_dropdown_item);
         adapterSido.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
@@ -78,15 +91,57 @@ public class RestaurantFragment extends Fragment {
             }
         });
 
+        btnSearchRestaurant.setOnClickListener(new View.OnClickListener() {//안심식당검색버튼누를시
+            @Override
+            public void onClick(View v) {
+                arrayRestaurant.clear();
+                page=10;
+                strSelectedSido = spinSearchSiDo.getSelectedItem().toString();//시도확인
+                strSelectedSiGunGu = spinSearchSiGunGu.getSelectedItem().toString();//시군구확인
 
+                if(strSelectedSido.equals("전체") && strSelectedSiGunGu.equals("전체")){//두개다 전체일때
+                    check=1;
+                }else if(strSelectedSiGunGu.equals("전체")){//도전체를 검색하고 싶을때
+                    check=2;
+                }else{//시군구까지 검색하고 싶을때
+                    check=3;
+                }
+                new APIThread().execute();
+                new Handler().postDelayed(new Runnable() {//position 문제가 발생해 핸들러를 사용함.
+                    @Override
+                    public void run() {
+                        listRestaurant.scrollToPosition(page-10);
+                    }
+                },200);
+            }
+        });
 
+        btnRestaurantMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(page>=1000){
+                    Toast.makeText(getContext(),"1000건 이상을 검색할 수 없습니다.",Toast.LENGTH_SHORT).show();
+                }else{
+                    page = page + 10;
+                    new APIThread().execute();
+                    //listRestaurant.scrollToPosition(page-1);
+                    new Handler().postDelayed(new Runnable() {//position 문제가 발생해 핸들러를 사용함.
+                        @Override
+                        public void run() {
+                            listRestaurant.scrollToPosition(page-1);
+                        }
+                    },200);
+                }
+            }
+        });
 
         new APIThread().execute();
-        // Inflate the layout for this fragment
+
+
         return view;
     }
 
-    public void CheckSido(String strSidoCheck){
+    public void CheckSido(String strSidoCheck){//시도마다 시군구 선택할 환경제공하는 메소드
 
         switch(strSidoCheck){
             case "전체" :
@@ -174,7 +229,13 @@ public class RestaurantFragment extends Fragment {
 
         @Override
         protected String doInBackground(String... strings) {
-            result = RestaurantApi.connect("http://211.237.50.150:7080/openapi/"+ApiKey.ApiFoodKey+"/json/Grid_20200713000000000605_1/1/5");
+            if(check==1){//두개다 전체일때
+                result = RestaurantApi.connect(url + page);
+            }else if(check==2){//도전체를 검색하고 싶을때
+                result = RestaurantApi.connect(url + page + "?RELAX_SI_NM="+strSelectedSido);
+            }else if(check==3){//시군구까지 검색하고 싶을때
+                result = RestaurantApi.connect(url + page + "?RELAX_SI_NM="+strSelectedSido+"&RELAX_SIDO_NM="+strSelectedSiGunGu);
+            }
             return result;
         }
 
@@ -185,7 +246,8 @@ public class RestaurantFragment extends Fragment {
             System.out.println("음식점데이터갯수 : "+ arrayRestaurant.size());
             //restaurantAdapter = new RestaurantAdapter();
             restaurantAdapter.notifyDataSetChanged();
-            listRestaurant.scrollToPosition(arrayRestaurant.size()-1);
+            //listRestaurant.scrollToPosition(page-1);
+            //listRestaurant.scrollToPosition(page-1);
 
 
         }
