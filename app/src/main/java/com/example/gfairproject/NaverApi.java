@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class NaverApi {
-    public static String connect(int display, String query, String url) {
+    public static String connect(int display, String query, String url, String sort) {
         String clientId = ApiKey.ApiNaverClientIDKey; //애플리케이션 클라이언트 아이디값"
         String clientSecret = ApiKey.ApiNaverClientSecretKey; //애플리케이션 클라이언트 시크릿값"
 
@@ -26,6 +26,7 @@ public class NaverApi {
 
         String apiURL = url + "?query=" + text;
         apiURL += "&display="+ display;// json 결과
+        apiURL += "&sort="+ sort;
         //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 결과
 
         Map<String, String> requestHeaders = new HashMap<>();

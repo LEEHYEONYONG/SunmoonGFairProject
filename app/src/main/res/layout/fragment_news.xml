@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".NewsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <Button
+        android:id="@+id/btnSearchNews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="안심식당뉴스갱신"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listNews"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="news" />
+        android:layout_below="@id/btnSearchNews"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnNewsMore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_add_24"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="30sp"/>
 
-</FrameLayout>
+</RelativeLayout>

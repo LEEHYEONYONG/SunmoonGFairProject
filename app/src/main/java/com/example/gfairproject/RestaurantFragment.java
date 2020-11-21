@@ -258,7 +258,7 @@ public class RestaurantFragment extends Fragment {
         try{
             System.out.println("결과는 "+ result);
             JSONObject jsonObject = new JSONObject(result);
-            System.out.println("????결과는" + jsonObject);
+            //System.out.println("????결과는" + jsonObject);
             JSONObject jsonObject1 = jsonObject.getJSONObject("Grid_20200713000000000605_1");
             JSONArray jArray = jsonObject1.getJSONArray("row");
             //JSONArray jArray2 = jArray.getJSONArray(5);
@@ -309,7 +309,12 @@ public class RestaurantFragment extends Fragment {
             holder.txtRestaurantName.setText(map.get("RELAX_RSTRNT_NM"));
             holder.txtRestaurantAddress.setText(map.get("RELAX_ADD1"));
             holder.txtRestaurantPhoneNumber.setText(map.get("RELAX_RSTRNT_TEL"));
-
+            holder.linearRestaurant.setOnClickListener(new View.OnClickListener() {//각 아이템을 클릭했을때 안심식당 상세정보로 이동.
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getContext(),"확인",Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         @Override
@@ -327,6 +332,7 @@ public class RestaurantFragment extends Fragment {
                 txtRestaurantPhoneNumber = itemView.findViewById(R.id.txtRestaurantPhoneNumber);
                 txtRestaurantAddress = itemView.findViewById(R.id.txtRestaurantAddress);
                 linearRestaurant = itemView.findViewById(R.id.linearRestaurant);
+
             }
         }
     }

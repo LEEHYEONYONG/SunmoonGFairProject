@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#E3F3FA"
+    android:id="@+id/linearNews"
+    android:padding="10sp"
+    android:layout_margin="5sp"
+    android:elevation="3sp">
+
+    <TextView
+        android:id="@+id/txtNewsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="뉴스제목"
+        android:layout_marginBottom="15sp"/>
+    <TextView
+        android:id="@+id/txtNewsDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="기사내용은 다음과 같습니다."/>
+
+</LinearLayout>
