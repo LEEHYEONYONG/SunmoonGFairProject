@@ -149,7 +149,7 @@ public class NewsFragment extends Fragment {
 
     //서브스레드3
     class APIThreadNewsSub2 extends AsyncTask<String,String,String>{
-        
+
 
         @Override
         protected String doInBackground(String... strings) {

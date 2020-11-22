@@ -25,6 +25,8 @@ public class ImportantActivity extends AppCompatActivity {
     PageAdapter ad;
     ArrayList<Fragment> array = new ArrayList<>();
 
+    private BackPressCloseHandler backPressCloseHandler;//뒤로가기종료버튼
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +70,8 @@ public class ImportantActivity extends AppCompatActivity {
             }
         });
 
+        backPressCloseHandler = new BackPressCloseHandler(this);
+
 
 
 
@@ -90,5 +94,11 @@ public class ImportantActivity extends AppCompatActivity {
         public int getCount() {
             return array.size();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        backPressCloseHandler.onBackPressed();
     }
 }
