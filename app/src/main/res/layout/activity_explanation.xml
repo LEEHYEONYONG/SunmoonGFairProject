@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ExplanationActivity"
+    android:orientation="vertical"
+    android:padding="10sp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="* 안심식당은 코로나 19를 계기로 감염병에 취약한 우리 식사문화를 바꾸는 데 앞장서는 곳으로 지자체에서 지정 및 지속적인 점검과 관리를 실시하고 있습니다."
+        android:layout_marginBottom="10sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="* 안심식당선정기준은 다음과 같습니다."/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" ① 덜어먹기 가능한 도구 비치・제공 "/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" ② 위생적 수저관리"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" ③ 종사자 마스크 착용"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" ④ 지자체별 추가 요건을 충족하는 음식점"
+        android:layout_marginBottom="10sp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10sp"
+        android:text="* 9월 23일 기준으로 전국에 12536개의 안심식당이 지정되어 공공데이터로 개방했고 지속적인 홍보와 관리로 지정 음식점을 확대해 가고 있습니다."/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10sp"
+        android:text="* 주간단위로 안심식당 개소는 갱신이 되고 있으며, 해당 음식점의 주소와 연락처등을 확인 할 수 있습니다."/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="* 문의 : 정부통합민원실 국번없이 110"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="45sp"
+        android:text="농식품 지식정보서비스(공공데이터) 오아시스 운영센터"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1661-5159"
+        android:layout_marginLeft="45sp"/>
+
+
+</LinearLayout>

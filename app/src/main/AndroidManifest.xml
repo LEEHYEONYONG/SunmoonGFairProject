@@ -12,7 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GFairProject"
         android:usesCleartextTraffic="true">
-        <activity android:name=".NewsWebActivity"></activity>
+        <activity android:name=".RestaurantExplanationActivity"></activity>
+        <activity android:name=".ExplanationActivity" />
+        <activity android:name=".AppInformationActivity" />
+        <activity android:name=".NewsWebActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".ImportantActivity">
             <intent-filter>

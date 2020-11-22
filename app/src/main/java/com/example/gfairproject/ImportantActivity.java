@@ -30,7 +30,7 @@ public class ImportantActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_important);
 
-        getSupportActionBar().setTitle("안심식당정보");
+        getSupportActionBar().setTitle("안심식당");
 
         tab = findViewById(R.id.tab);
         pager = findViewById(R.id.pager);

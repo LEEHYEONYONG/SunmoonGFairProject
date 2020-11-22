@@ -1,5 +1,6 @@
 package com.example.gfairproject;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -313,6 +314,25 @@ public class RestaurantFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(getContext(),"확인",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(),RestaurantExplanationActivity.class);
+                    intent.putExtra("RELAX_SEQ",map.get("RELAX_SEQ"));//안심식당SEQ
+                    intent.putExtra("RELAX_ZIPCODE",map.get("RELAX_ZIPCODE"));//시도코드
+                    intent.putExtra("RELAX_SI_NM",map.get("RELAX_SI_NM"));//시도명
+                    intent.putExtra("RELAX_SIDO_NM",map.get("RELAX_SIDO_NM"));//시군구명
+                    intent.putExtra("RELAX_RSTRNT_NM",map.get("RELAX_RSTRNT_NM"));//사업자명
+                    intent.putExtra("RELAX_RSTRNT_REPRESENT",map.get("RELAX_RSTRNT_REPRESENT"));//대표자명
+                    intent.putExtra("RELAX_ADD1",map.get("RELAX_ADD1"));//주소1
+                    intent.putExtra("RELAX_ADD2",map.get("RELAX_ADD2"));//주소2
+                    intent.putExtra("RELAX_GUBUN",map.get("RELAX_GUBUN"));//업종
+                    intent.putExtra("RELAX_GUBUN_DETAIL",map.get("RELAX_GUBUN_DETAIL"));//업종상세
+                    intent.putExtra("RELAX_RSTRNT_TEL",map.get("RELAX_RSTRNT_TEL"));//전화번호
+                    intent.putExtra("RELAX_RSTRNT_ETC",map.get("RELAX_RSTRNT_ETC"));//비고(웹사이트등)
+                    intent.putExtra("RELAX_USE_YN",map.get("RELAX_USE_YN"));//선정여부
+                    System.out.println("음식점이름 : "+map.get("RELAX_RSTRNT_NM"));
+                    System.out.println("음식점주소 : "+map.get("RELAX_ADD1"));
+                    System.out.println("음식점전화번호 : "+map.get("RELAX_RSTRNT_TEL"));
+
+                    startActivity(intent);
                 }
             });
         }
