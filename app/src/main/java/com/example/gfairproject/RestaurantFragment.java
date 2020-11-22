@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +42,8 @@ public class RestaurantFragment extends Fragment {
     Button btnSearchRestaurant;
     FloatingActionButton btnRestaurantMore;
 
+    ProgressBar progressBarRestaurant;
+
     RecyclerView listRestaurant;
     //RestaurantAdapter restaurantAdapter = new RestaurantAdapter();
     RestaurantAdapter restaurantAdapter = new RestaurantAdapter();
@@ -52,6 +57,9 @@ public class RestaurantFragment extends Fragment {
     String strSelectedSido;//선택한 시도
     String strSelectedSiGunGu;//선택한 시군구
     int check=1;//경우선택
+
+    //Message message;//스레드관련
+    Handler handler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,6 +75,7 @@ public class RestaurantFragment extends Fragment {
         listRestaurant.setLayoutManager(new LinearLayoutManager(getActivity()));
         listRestaurant.setAdapter(restaurantAdapter);
 
+        progressBarRestaurant = view.findViewById(R.id.progressBarRestaurant);
 
 
         final ArrayAdapter adapterSido = ArrayAdapter.createFromResource(getContext(),R.array.SiDo,R.layout.support_simple_spinner_dropdown_item);
@@ -107,13 +116,17 @@ public class RestaurantFragment extends Fragment {
                 }else{//시군구까지 검색하고 싶을때
                     check=3;
                 }
-                new APIThread().execute();
+                new APIThreadRestaurant().execute();
+                new APIThreadRestaurantSub().execute();
+
+                /*
                 new Handler().postDelayed(new Runnable() {//position 문제가 발생해 핸들러를 사용함.
                     @Override
                     public void run() {
                         listRestaurant.scrollToPosition(page-10);
                     }
-                },200);
+                },1000);
+                */
             }
         });
 
@@ -124,19 +137,35 @@ public class RestaurantFragment extends Fragment {
                     Toast.makeText(getContext(),"1000건 이상을 검색할 수 없습니다.",Toast.LENGTH_SHORT).show();
                 }else{
                     page = page + 10;
-                    new APIThread().execute();
+                    new APIThreadRestaurant().execute();
+                    new APIThreadRestaurantSub2().execute();
                     //listRestaurant.scrollToPosition(page-1);
+                    /*
                     new Handler().postDelayed(new Runnable() {//position 문제가 발생해 핸들러를 사용함.
                         @Override
                         public void run() {
                             listRestaurant.scrollToPosition(page-1);
                         }
-                    },200);
+                    },1000);
+                    */
+                    /*
+                    handler = new Handler(Looper.getMainLooper()){
+                        @Override
+                        public void handleMessage(@NonNull Message msg) {
+                            super.handleMessage(msg);
+                            Bundle bundle = msg.getData();
+                            if(bundle.getBoolean("END_AUTH")){
+                                listRestaurant.scrollToPosition(page-1);
+                            }
+                        }
+                    };
+                     */
+
                 }
             }
         });
 
-        new APIThread().execute();
+        new APIThreadRestaurant().execute();
 
 
         return view;
@@ -221,10 +250,12 @@ public class RestaurantFragment extends Fragment {
 
     }
 
-    class APIThread extends AsyncTask<String,String,String>{
+    //서브스레드1
+    class APIThreadRestaurant extends AsyncTask<String,String,String>{
 
         @Override
         protected void onPreExecute() {
+            progressBarRestaurant.setVisibility(View.VISIBLE);
             super.onPreExecute();
         }
 
@@ -247,10 +278,54 @@ public class RestaurantFragment extends Fragment {
             System.out.println("음식점데이터갯수 : "+ arrayRestaurant.size());
             //restaurantAdapter = new RestaurantAdapter();
             restaurantAdapter.notifyDataSetChanged();
+            progressBarRestaurant.setVisibility(View.INVISIBLE);
             //listRestaurant.scrollToPosition(page-1);
             //listRestaurant.scrollToPosition(page-1);
 
+            /*
+            //다음 작업하기위한 메시지 전송
+            Handler handler = new Handler(Looper.getMainLooper()){
 
+            };
+            Message message = handler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("END_AUTH",true);
+            message.setData(bundle);
+            handler.sendMessage(message);
+             */
+
+
+
+        }
+    }
+
+    //서브스레드2
+    class APIThreadRestaurantSub extends AsyncTask<String,String,String>{
+
+        @Override
+        protected String doInBackground(String... strings) {
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            listRestaurant.scrollToPosition(0);
+        }
+    }
+
+    //서브스레드3
+    class APIThreadRestaurantSub2 extends AsyncTask<String,String,String>{
+
+        @Override
+        protected String doInBackground(String... strings) {
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            listRestaurant.scrollToPosition(page-1);
         }
     }
 
@@ -313,7 +388,7 @@ public class RestaurantFragment extends Fragment {
             holder.linearRestaurant.setOnClickListener(new View.OnClickListener() {//각 아이템을 클릭했을때 안심식당 상세정보로 이동.
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getContext(),"확인",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(),"확인",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getContext(),RestaurantExplanationActivity.class);
                     intent.putExtra("RELAX_SEQ",map.get("RELAX_SEQ"));//안심식당SEQ
                     intent.putExtra("RELAX_ZIPCODE",map.get("RELAX_ZIPCODE"));//시도코드

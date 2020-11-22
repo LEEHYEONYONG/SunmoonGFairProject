@@ -1,15 +1,20 @@
 package com.example.gfairproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +29,8 @@ public class RestaurantExplanationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_explanation);
-        getSupportActionBar().setTitle("음식점 상세정보");
+        getSupportActionBar().setTitle("안심식당 상세정보");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         listRestaurantExplanation = findViewById(R.id.listRestaurantExplanation);
 
@@ -33,6 +39,31 @@ public class RestaurantExplanationActivity extends AppCompatActivity {
 
         restaurantExplanationAdapter = new RestaurantExplanationAdapter();
         listRestaurantExplanation.setAdapter(restaurantExplanationAdapter);
+        listRestaurantExplanation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position==3){
+                    //지도 액티비티로 넘어감
+                    if(restaurantExplanationArray.get(3).description.trim().equals("")){
+                        Toast.makeText(RestaurantExplanationActivity.this, "주소가 없습니다.", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Intent intentMap = new Intent(RestaurantExplanationActivity.this,MapsActivity.class);
+                        intentMap.putExtra("restaurantName",intent.getStringExtra("RELAX_RSTRNT_NM"));
+                        intentMap.putExtra("Address",intent.getStringExtra("RELAX_ADD1"));
+                        startActivity(intentMap);
+                    }
+                }else if(position==6){
+                    //전화를 검(전화 액티비티로 넘어감)
+                    System.out.println("전화번호: " + intent.getStringExtra("RELAX_RSTRNT_TEL").trim());
+                    if(restaurantExplanationArray.get(6).description.trim().equals("")) {
+                        Toast.makeText(RestaurantExplanationActivity.this, "전화번호가 없습니다.", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Intent intentCall = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+intent.getStringExtra("RELAX_RSTRNT_TEL").replaceAll("-","")));
+                        startActivity(intentCall);
+                    }
+                }
+            }
+        });
     }
 
     public void datainput(Intent intent){//다른 액티비티에서 데이터 받아옴.
@@ -121,5 +152,16 @@ public class RestaurantExplanationActivity extends AppCompatActivity {
             txtRestaurantExplanationDescription.setText(restaurantExplanation.getDescription());
             return convertView;
         }
+    }
+
+    //뒤로가기이벤트
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

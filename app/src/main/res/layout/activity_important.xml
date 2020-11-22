@@ -22,7 +22,7 @@
             android:id="@+id/tab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#4CAF50"
+            android:background="#27CC92"
             app:tabSelectedTextColor="#FFFFFF"
             app:tabIndicatorColor="#FFFFFF"
             app:tabIconTint="#000000"

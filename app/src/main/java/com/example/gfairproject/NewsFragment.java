@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,8 @@ public class NewsFragment extends Fragment {
     NewsAdapter newsAdapter = new NewsAdapter();
     Button btnSearchNews;
 
+    ProgressBar progressBarNews;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,18 +55,23 @@ public class NewsFragment extends Fragment {
         listNews.setLayoutManager(new LinearLayoutManager(getActivity()));
         listNews.setAdapter(newsAdapter);
 
+        progressBarNews =view.findViewById(R.id.progressBarNews);
+
         btnSearchNews = view.findViewById(R.id.btnSearchNews);
         btnSearchNews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 display=5;
-                new APIThread().execute();
+                new APIThreadNews().execute();
+                new APIThreadNewsSub().execute();
+                /*
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         listNews.scrollToPosition(0);
                     }
-                },200);
+                },1000);
+                */
             }
         });
 
@@ -76,27 +84,34 @@ public class NewsFragment extends Fragment {
                     Toast.makeText(getContext(),"100건 이상을 검색할 수 없습니다.",Toast.LENGTH_SHORT).show();
                 }else{
                     display = display + 5;
-                    new APIThread().execute();
+                    new APIThreadNews().execute();
+                    new APIThreadNewsSub2().execute();
+                    /*
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             listNews.scrollToPosition(display-1);
                         }
-                    },200);
+                    },1000);
+                     */
+
+
                 }
 
             }
         });
 
 
-        new APIThread().execute();
+        new APIThreadNews().execute();
         return view;
     }
 
-    class APIThread extends AsyncTask<String,String,String>{
+    //서브스레드1
+    class APIThreadNews extends AsyncTask<String,String,String>{
 
         @Override
         protected void onPreExecute() {
+            progressBarNews.setVisibility(View.VISIBLE);
             super.onPreExecute();
         }
 
@@ -112,6 +127,39 @@ public class NewsFragment extends Fragment {
             parser(s);
             System.out.println("음식점데이터갯수 : "+ arrayNews.size());
             newsAdapter.notifyDataSetChanged();
+            progressBarNews.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    //서브스레드2
+    class APIThreadNewsSub extends AsyncTask<String,String,String>{
+
+
+        @Override
+        protected String doInBackground(String... strings) {
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            listNews.scrollToPosition(0);
+        }
+    }
+
+    //서브스레드3
+    class APIThreadNewsSub2 extends AsyncTask<String,String,String>{
+        
+
+        @Override
+        protected String doInBackground(String... strings) {
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            listNews.scrollToPosition(display-1);
         }
     }
 

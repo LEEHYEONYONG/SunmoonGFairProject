@@ -88,3 +88,5 @@ lint/tmp/
 *.hprof
 
 ApiKey.java
+
+google_maps_api.xml
