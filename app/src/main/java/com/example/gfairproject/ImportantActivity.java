@@ -2,6 +2,7 @@ package com.example.gfairproject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -12,7 +13,9 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.icu.text.IDNA;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -20,6 +23,9 @@ import java.util.ArrayList;
 
 public class ImportantActivity extends AppCompatActivity {
 
+
+    DrawerLayout drawerLayout;
+    LinearLayout drawerView;
     ViewPager pager;
     TabLayout tab;
     PageAdapter ad;
@@ -33,7 +39,11 @@ public class ImportantActivity extends AppCompatActivity {
         setContentView(R.layout.activity_important);
 
         getSupportActionBar().setTitle("안심식당");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24);
 
+        drawerLayout = findViewById(R.id.drawerLayout);
+        drawerView = findViewById(R.id.drawerView);
         tab = findViewById(R.id.tab);
         pager = findViewById(R.id.pager);
 
@@ -100,5 +110,15 @@ public class ImportantActivity extends AppCompatActivity {
     public void onBackPressed() {
         //super.onBackPressed();
         backPressCloseHandler.onBackPressed();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                drawerLayout.openDrawer(drawerView);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
